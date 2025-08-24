@@ -1,0 +1,41 @@
+name: Settle picks & update P/L
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"  # every 15 minutes
+  workflow_dispatch:
+
+jobs:
+  settle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Decide if we should call the API (Budapest evening window)
+        id: window
+        run: |
+          node -e "const now=new Date(); \
+          const utcHour=now.getUTCHours(); \
+          // Budapest kb. 12..23 UTC ablak (nyár/tél váltás egyszerűsítve)
+          const ok=(utcHour>=12 || utcHour<=23); \
+          console.log('utcHour=', utcHour, 'windowOk=', ok); \
+          if(!ok){process.exit(78)}"  # 78=neutral exit
+
+      - name: Run settle script
+        env:
+          TOA_API_KEY: ${{ secrets.TOA_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/settle_picks.mjs
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/*.json || true
+          git commit -m "chore: update results & monthly P/L [skip ci]" || exit 0
+          git push
