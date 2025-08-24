@@ -1,0 +1,13 @@
+[
+  {
+    "id": "pick-001",
+    "sport": "soccer_epl",
+    "eventId": "EXAMPLE_EVENT_ID",
+    "market": "h2h",
+    "selection": "home",
+    "odds": 1.85,
+    "stake": 1000,
+    "commence_time": "2025-08-24T18:30:00Z",
+    "status": "open"
+  }
+]
