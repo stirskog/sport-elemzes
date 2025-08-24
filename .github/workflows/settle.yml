@@ -3,7 +3,7 @@ name: Settle picks & update P/L
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"  # every 15 minutes
+    - cron: "*/15 * * * *"
 
 jobs:
   settle:
@@ -19,13 +19,21 @@ jobs:
       - name: Run settle script
         env:
           TOA_API_KEY: ${{ secrets.TOA_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/settle_picks.mjs
 
-      - name: Commit changes
+      - name: Commit and push changes (if any)
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/*.json || true
-          git commit -m "chore: update results & monthly P/L [skip ci]" || exit 0
-          git push
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: update results & monthly P/L [skip ci]"
+          # elkerüljük a non-fast-forward hibát
+          git pull --rebase origin "${GITHUB_REF_NAME:-main}" || true
+          git push origin HEAD:"${GITHUB_REF_NAME:-main}"
