@@ -1,9 +1,9 @@
 name: Settle picks & update P/L
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "*/15 * * * *"  # every 15 minutes
-  workflow_dispatch:
 
 jobs:
   settle:
@@ -15,16 +15,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Decide if we should call the API (Budapest evening window)
-        id: window
-        run: |
-          node -e "const now=new Date(); \
-          const utcHour=now.getUTCHours(); \
-          // Budapest kb. 12..23 UTC ablak (nyár/tél váltás egyszerűsítve)
-          const ok=(utcHour>=12 || utcHour<=23); \
-          console.log('utcHour=', utcHour, 'windowOk=', ok); \
-          if(!ok){process.exit(78)}"  # 78=neutral exit
 
       - name: Run settle script
         env:
