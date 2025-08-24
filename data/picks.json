@@ -2,12 +2,24 @@
   {
     "id": "pick-001",
     "sport": "soccer_epl",
-    "eventId": "EXAMPLE_EVENT_ID",
+    "eventId": "cc48d3216bca8edbd0497f9f6877d80c",
     "market": "h2h",
-    "selection": "home",
-    "odds": 1.85,
+    "selection": "away",
+    "odds": 2.10,
     "stake": 1000,
-    "commence_time": "2025-08-24T18:30:00Z",
+    "commence_time": "2025-08-25T19:00:00Z",
+    "status": "open"
+  },
+  {
+    "id": "pick-002",
+    "sport": "soccer_epl",
+    "eventId": "d0f07775865352e055d4deca55e0e56c",
+    "market": "totals",
+    "selection": "over",
+    "line": 2.5,
+    "odds": 1.90,
+    "stake": 1000,
+    "commence_time": "2025-08-31T15:30:00Z",
     "status": "open"
   }
 ]
