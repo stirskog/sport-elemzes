@@ -5,11 +5,17 @@ on:
   schedule:
     - cron: "*/15 * * * *"
 
+# <<< EZ A SOR A LÉNYEG
+permissions:
+  contents: write
+
 jobs:
   settle:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Use Node 20
         uses: actions/setup-node@v4
@@ -26,14 +32,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-
           git add -A
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
-
           git commit -m "chore: update results & monthly P/L [skip ci]"
-          # elkerüljük a non-fast-forward hibát
           git pull --rebase origin "${GITHUB_REF_NAME:-main}" || true
           git push origin HEAD:"${GITHUB_REF_NAME:-main}"
