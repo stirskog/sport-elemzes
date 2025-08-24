@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SportElemzés – P/L és tippek</title>
+  <link rel="stylesheet" href="./assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>SportElemzés – Havi P/L + Tippek</h1>
+    <p class="muted">Az adatok a <code>data/</code> mappából érkeznek (monthly-pl.json, picks.json).</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Havi P/L</h2>
+      <canvas id="plChart" height="160"></canvas>
+      <div id="plSummary" class="summary"></div>
+    </section>
+
+    <section class="card">
+      <h2>Tippek</h2>
+      <div class="controls">
+        <label>Szűrés státusz szerint:
+          <select id="statusFilter">
+            <option value="all">Összes</option>
+            <option value="open">Nyitott</option>
+            <option value="settled">Lezárt</option>
+          </select>
+        </label>
+      </div>
+      <table id="picksTable">
+        <thead>
+          <tr>
+            <th>ID</th><th>Sport</th><th>Piac</th><th>Választás</th><th>Odds</th><th>Tét</th><th>Állapot</th><th>Eredmény</th><th>Profit</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 SportElemzés – statikus MVP</p>
+  </footer>
+
+  <script src="./assets/main.js"></script>
+</body>
+</html>
