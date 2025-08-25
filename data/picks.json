@@ -5,9 +5,18 @@
     "eventId": "cc48d3216bca8edbd0497f9f6877d80c",
     "market": "h2h",
     "selection": "away",
-    "odds": 2.10,
+    "odds": 2.1,
     "stake": 1000,
     "commence_time": "2025-08-25T19:00:00Z",
-    "status": "open"
+    "status": "settled",
+    "result": "win",
+    "profit": 1100,
+    "settledAt": "2025-08-25T21:29:52.401Z",
+    "meta": {
+      "homeScore": 2,
+      "awayScore": 3,
+      "homeTeam": "Newcastle United",
+      "awayTeam": "Liverpool"
+    }
   }
 ]
